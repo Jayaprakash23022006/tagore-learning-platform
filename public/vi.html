@@ -1,0 +1,287 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Voice Navigated Portal (VI Portal)</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        .vi-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 80vh;
+            text-align: center;
+        }
+
+        .mic-btn {
+            width: 150px;
+            height: 150px;
+            border-radius: 50%;
+            background: var(--portal-vi-start);
+            color: white;
+            font-size: 4rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border: none;
+            cursor: pointer;
+            box-shadow: 0 10px 30px rgba(139, 92, 246, 0.4);
+            transition: all 0.3s ease;
+            position: relative;
+            margin-bottom: 2rem;
+        }
+
+        .mic-btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            border-radius: 50%;
+            border: 2px solid var(--portal-vi-start);
+            animation: pulse-ring 2s cubic-bezier(0.215, 0.61, 0.355, 1) infinite;
+            opacity: 0;
+        }
+
+        .mic-btn.listening {
+            background: var(--error);
+            box-shadow: 0 10px 30px rgba(239, 68, 68, 0.4);
+            transform: scale(1.05);
+        }
+
+        .mic-btn.listening::before {
+            border-color: var(--error);
+            opacity: 1;
+        }
+
+        @keyframes pulse-ring {
+            0% {
+                transform: scale(1);
+                opacity: 0.8;
+            }
+
+            100% {
+                transform: scale(1.5);
+                opacity: 0;
+            }
+        }
+
+        .status-text {
+            font-size: 1.5rem;
+            color: var(--text-main);
+            margin-bottom: 1rem;
+            font-weight: 600;
+        }
+
+        .transcription {
+            font-size: 1.2rem;
+            color: var(--text-muted);
+            max-width: 800px;
+            background: rgba(0, 0, 0, 0.2);
+            padding: 1.5rem;
+            border-radius: var(--radius-md);
+            border: 1px solid var(--card-border);
+            min-height: 100px;
+        }
+
+        .nav-controls {
+            display: flex;
+            gap: 1rem;
+            margin-top: 2rem;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="bg-shape shape-1" style="background: var(--portal-vi-start)"></div>
+    <div class="bg-shape shape-2"></div>
+
+    <nav class="navbar">
+        <div class="navbar-brand" style="color: var(--portal-vi-start)">
+            <i class="fas fa-eye-slash"></i> Voice Portal Architecture
+        </div>
+        <div class="nav-links">
+            <a href="index.html" class="nav-link" style="color: var(--error)"><i class="fas fa-sign-out-alt"></i>
+                Exit</a>
+        </div>
+    </nav>
+
+    <div class="container vi-container mt-5">
+        <h1 class="gradient-text mb-4">Readable AI Assistant</h1>
+        <p class="text-muted mb-5" style="max-width: 600px;">
+            Tap the microphone button and speak your question or command. The AI will listen and read the response back
+            to you. (Commands: "Read History", "Read Science").
+        </p>
+
+        <button class="mic-btn" id="micBtn" aria-label="Start Voice Assistant">
+            <i class="fas fa-microphone"></i>
+        </button>
+
+        <div class="status-text" id="statusText">Tap to start speaking...</div>
+        <div class="transcription" id="transcriptionBox">Your speech and the AI response will appear here.</div>
+
+        <div class="nav-controls">
+            <button class="btn btn-primary" onclick="stopSpeaking()" style="background: var(--warning)"><i
+                    class="fas fa-stop" style="margin-right: 0.5rem"></i> Stop Audio</button>
+        </div>
+    </div>
+
+    <!-- Hidden chat widget so the global initAIChat doesn't error, but we don't need it -->
+    <div style="display:none" id="chatBtn"></div>
+
+    <script>
+        const micBtn = document.getElementById('micBtn');
+        const statusText = document.getElementById('statusText');
+        const transcriptionBox = document.getElementById('transcriptionBox');
+
+        let recognition;
+        let isListening = false;
+        let synthesis = window.speechSynthesis;
+        let currentUtterance = null;
+
+        // Initialize Speech Recognition
+        if ('webkitSpeechRecognition' in window || 'SpeechRecognition' in window) {
+            const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+            recognition = new SpeechRecognition();
+            recognition.continuous = false;
+            recognition.interimResults = true;
+            recognition.lang = 'en-US';
+
+            recognition.onstart = () => {
+                isListening = true;
+                micBtn.classList.add('listening');
+                statusText.textContent = "Listening...";
+                statusText.style.color = "var(--error)";
+                // Stop any ongoing speech when user starts talking
+                stopSpeaking();
+            };
+
+            recognition.onresult = (event) => {
+                let interimTranscript = '';
+                let finalTranscript = '';
+
+                for (let i = event.resultIndex; i < event.results.length; ++i) {
+                    if (event.results[i].isFinal) {
+                        finalTranscript += event.results[i][0].transcript;
+                    } else {
+                        interimTranscript += event.results[i][0].transcript;
+                    }
+                }
+
+                if (finalTranscript) {
+                    processVoiceCommand(finalTranscript);
+                } else {
+                    transcriptionBox.innerHTML = `<em>${interimTranscript}</em>`;
+                }
+            };
+
+            recognition.onerror = (event) => {
+                statusText.textContent = "Error: " + event.error;
+                stopListeningUI();
+            };
+
+            recognition.onend = () => {
+                // Only reset UI if we aren't currently waiting for AI response
+                if (statusText.textContent === "Listening...") {
+                    stopListeningUI();
+                }
+            };
+        } else {
+            statusText.textContent = "Speech Recognition API not supported in this browser.";
+            micBtn.disabled = true;
+        }
+
+        micBtn.addEventListener('click', () => {
+            if (isListening) {
+                recognition.stop();
+            } else {
+                try {
+                    recognition.start();
+                } catch (e) {
+                    console.error(e);
+                }
+            }
+        });
+
+        function stopListeningUI() {
+            isListening = false;
+            micBtn.classList.remove('listening');
+            if (statusText.textContent !== "Thinking...") {
+                statusText.textContent = "Tap to speak again";
+                statusText.style.color = "var(--text-main)";
+            }
+        }
+
+        function stopSpeaking() {
+            if (synthesis.speaking) {
+                synthesis.cancel();
+            }
+        }
+
+        function readAloud(text) {
+            stopSpeaking(); // Stop current speech
+            currentUtterance = new SpeechSynthesisUtterance(text);
+            currentUtterance.rate = 1.0;
+            currentUtterance.pitch = 1.0;
+
+            // Clean markdown or special characters for better speech
+            currentUtterance.text = text.replace(/[*_#]/g, '');
+
+            currentUtterance.onend = () => {
+                statusText.textContent = "Tap to speak again";
+                statusText.style.color = "var(--text-main)";
+            };
+
+            synthesis.speak(currentUtterance);
+        }
+
+        async function processVoiceCommand(transcript) {
+            stopListeningUI();
+            transcriptionBox.innerHTML = `<strong>You said:</strong> ${transcript}<br><br><em>Waiting for AI response...</em>`;
+            statusText.textContent = "Processing...";
+            statusText.style.color = "var(--warning)";
+
+            // Basic built-in navigation commands if user asks for specific portal actions
+            const lowerTranscript = transcript.toLowerCase();
+            if (lowerTranscript.includes("go back") || lowerTranscript.includes("exit")) {
+                readAloud("Exiting to main menu.");
+                setTimeout(() => window.location.href = 'index.html', 2000);
+                return;
+            }
+
+            // Send to Anthropic API
+            try {
+                const systemPrompt = "You are the 'Readable AI', an auditory assistant for Visually Impaired students on the Tagore Learning Platform. Provide exceptionally clear, concise, and structured answers without bullet points or complex markdown, as your output will be read aloud via Text-to-Speech. Answer directly.";
+
+                const response = await fetch('http://localhost:5000/api/chat', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ message: transcript, systemPrompt })
+                });
+
+                const data = await response.json();
+
+                if (response.ok) {
+                    transcriptionBox.innerHTML = `<strong>You said:</strong> ${transcript}<br><br><strong>AI:</strong> ${data.reply}`;
+                    statusText.textContent = "Reading response...";
+                    statusText.style.color = "var(--success)";
+                    readAloud(data.reply);
+                } else {
+                    throw new Error(data.error || 'Server Error');
+                }
+            } catch (error) {
+                transcriptionBox.innerHTML = `<strong>You said:</strong> ${transcript}<br><br><span style="color: var(--error)">Error: ${error.message} - Make sure server is running on port 5000</span>`;
+                statusText.textContent = "Error occurred";
+                statusText.style.color = "var(--error)";
+                readAloud("Sorry, I could not connect to the server. Please check your connection.");
+            }
+        }
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>General Studies (Common Portal)</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        .translator-bar {
+            background: var(--surface-glass);
+            padding: 1rem 2rem;
+            display: flex;
+            align-items: center;
+            justify-content: flex-end;
+            gap: 1rem;
+            border-bottom: 1px solid var(--card-border);
+        }
+
+        .translator-label {
+            font-weight: 600;
+            color: var(--text-main);
+        }
+    </style>
+</head>
+
+<body>
+    <div class="bg-shape shape-1" style="background: var(--portal-common-start)"></div>
+    <div class="bg-shape shape-2"></div>
+
+    <div class="translator-bar notranslate">
+        <span class="translator-label"><i class="fas fa-language"></i> Change Language:</span>
+        <div id="google_translate_element"></div>
+    </div>
+
+    <nav class="navbar notranslate">
+        <div class="navbar-brand" style="color: var(--portal-common-start)">
+            <i class="fas fa-university"></i> General Studies
+        </div>
+        <div class="nav-links">
+            <a href="#college" class="nav-link active">College Courses</a>
+            <a href="#skills" class="nav-link">Skill Development</a>
+            <a href="index.html" class="nav-link" style="color: var(--error)"><i class="fas fa-sign-out-alt"></i>
+                Exit</a>
+        </div>
+    </nav>
+
+    <div class="container mt-5">
+        <header class="mb-5 text-center">
+            <h1 class="gradient-text mb-2">Higher Education & Skills</h1>
+            <p class="text-muted">Advanced courses, AI, and Data Science. Switch language above as needed.</p>
+        </header>
+
+        <!-- College Courses Content Library -->
+        <section id="college" class="mb-5">
+            <div style="display: flex; justify-content: space-between; align-items: center;" class="mb-4">
+                <h2><i class="fas fa-laptop-code" style="color: var(--portal-common-start)"></i> Tech & Engineering
+                    Courses</h2>
+                <span class="badge badge-common notranslate">UG / PG</span>
+            </div>
+
+            <div class="grid-3">
+                <!-- Data Science & Big Data -->
+                <div class="glass-panel course-card">
+                    <div class="video-container">
+                        <iframe src="https://www.youtube.com/embed/bAyrObl7TYE" title="Big Data"
+                            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                            allowfullscreen></iframe>
+                    </div>
+                    <div class="course-content">
+                        <h3 class="course-title">Big Data Analysis</h3>
+                        <p class="course-desc">Hadoop, Spark, and large-scale data processing architectures.</p>
+                        <div class="course-footer notranslate">
+                            <span style="color: var(--text-muted); font-size: 0.8rem">12 Modules</span>
+                            <button class="btn btn-primary" style="background: var(--portal-common-start)">Take
+                                Assessment</button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Theory of Computations -->
+                <div class="glass-panel course-card">
+                    <div class="video-container">
+                        <iframe src="https://www.youtube.com/embed/aA_b1qL-rGE" title="TOC"
+                            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                            allowfullscreen></iframe>
+                    </div>
+                    <div class="course-content">
+                        <h3 class="course-title">Theory of Computation</h3>
+                        <p class="course-desc">Automata theory, Turing machines, and language fundamentals.</p>
+                        <div class="course-footer notranslate">
+                            <span style="color: var(--text-muted); font-size: 0.8rem">8 Modules</span>
+                            <button class="btn btn-primary" style="background: var(--portal-common-start)">PDF
+                                Notes</button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- AIML / AIDS -->
+                <div class="glass-panel course-card">
+                    <div class="video-container">
+                        <iframe src="https://www.youtube.com/embed/JMUxmLyrhSk" title="AI & ML"
+                            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                            allowfullscreen></iframe>
+                    </div>
+                    <div class="course-content">
+                        <h3 class="course-title">AI & ML (AIDS)</h3>
+                        <p class="course-desc">Neural networks, Deep Learning, and Artificial Intelligence overview.</p>
+                        <div class="course-footer notranslate">
+                            <span style="color: var(--text-muted); font-size: 0.8rem">15 Modules</span>
+                            <a href="#" class="btn btn-primary" style="background: var(--portal-common-start)">Resources
+                                & Assessment</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="grid-2 mt-5">
+                <!-- DBMS & Data Warehouse -->
+                <div class="glass-panel" style="padding: 1.5rem">
+                    <h3 style="margin-bottom: 1rem; color: var(--portal-common-end)"><i class="fas fa-database"></i>
+                        DBMS & Data Warehouse</h3>
+                    <ul style="list-style: none; display: flex; flex-direction: column; gap: 0.5rem;"
+                        class="notranslate">
+                        <li
+                            style="display: flex; justify-content: space-between; border-bottom: 1px solid var(--card-border); padding-bottom: 0.5rem">
+                            <span>SQL Fundamentals</span>
+                            <a href="#" style="color: var(--primary)">Watch & Assess <i
+                                    class="fas fa-arrow-right"></i></a>
+                        </li>
+                        <li
+                            style="display: flex; justify-content: space-between; border-bottom: 1px solid var(--card-border); padding-bottom: 0.5rem">
+                            <span>OLAP vs OLTP Architecture</span>
+                            <a href="#" style="color: var(--primary)">Download Notes <i class="fas fa-download"></i></a>
+                        </li>
+                    </ul>
+                </div>
+
+                <!-- Data Structures -->
+                <div class="glass-panel" style="padding: 1.5rem">
+                    <h3 style="margin-bottom: 1rem; color: var(--accent)"><i class="fas fa-sitemap"></i> Data Structures
+                    </h3>
+                    <ul style="list-style: none; display: flex; flex-direction: column; gap: 0.5rem;"
+                        class="notranslate">
+                        <li
+                            style="display: flex; justify-content: space-between; border-bottom: 1px solid var(--card-border); padding-bottom: 0.5rem">
+                            <span>Trees & Graphs (Advanced)</span>
+                            <a href="#" style="color: var(--primary)">Watch & Assess <i
+                                    class="fas fa-arrow-right"></i></a>
+                        </li>
+                        <li
+                            style="display: flex; justify-content: space-between; border-bottom: 1px solid var(--card-border); padding-bottom: 0.5rem">
+                            <span>Algorithm Complexity (Big O)</span>
+                            <a href="#" style="color: var(--primary)">Assessments <i
+                                    class="fas fa-check-circle"></i></a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <!-- Skill Development Section -->
+        <section id="skills" class="mb-5">
+            <div class="glass-panel" style="padding: 2rem;">
+                <h2 class="mb-3"><i class="fas fa-chart-line" style="color: var(--success)"></i> Skill Development &
+                    Assessments</h2>
+                <p class="text-muted mb-4">Prepare for industry roles. The links below will launch external or internal
+                    assessments. (Excluded from translation engine).</p>
+
+                <div class="grid-3 notranslate">
+                    <div style="background: rgba(0,0,0,0.2); padding: 1.5rem; border-radius: var(--radius-md)">
+                        <h4>Aptitude & Reasoning</h4>
+                        <p class="text-muted mb-3" style="font-size: 0.9rem">Quant, logic, and puzzles.</p>
+                        <button class="btn btn-primary" style="width: 100%; font-size: 0.8rem">Start Test</button>
+                    </div>
+                    <div style="background: rgba(0,0,0,0.2); padding: 1.5rem; border-radius: var(--radius-md)">
+                        <h4>Coding Interviews</h4>
+                        <p class="text-muted mb-3" style="font-size: 0.9rem">DS and Algo problem solving.</p>
+                        <button class="btn btn-primary" style="width: 100%; font-size: 0.8rem">Start Test</button>
+                    </div>
+                    <div style="background: rgba(0,0,0,0.2); padding: 1.5rem; border-radius: var(--radius-md)">
+                        <h4>Communication Skills</h4>
+                        <p class="text-muted mb-3" style="font-size: 0.9rem">Verbal reasoning & emails.</p>
+                        <button class="btn btn-primary" style="width: 100%; font-size: 0.8rem">Start Test</button>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+    </div>
+
+    <!-- AI Chat Widget -->
+    <div class="chat-widget notranslate">
+        <button class="chat-button" id="chatBtn" style="background: var(--portal-common-start)">
+            <i class="fas fa-robot"></i>
+        </button>
+        <div class="chat-window" id="chatWindow">
+            <div class="chat-header">
+                <div><i class="fas fa-microchip" style="color: var(--portal-common-start); margin-right: 0.5rem"></i>
+                    Tech Assistant</div>
+                <i class="fas fa-times" id="closeChat" style="cursor: pointer"></i>
+            </div>
+            <div class="chat-messages" id="chatMessages">
+                <div class="message ai">Hello! I can help you understand advanced CS concepts like DBMS, AIDS, and
+                    Theory of Computation.</div>
+            </div>
+            <div class="chat-input">
+                <input type="text" id="chatInput" placeholder="Ask a tech question...">
+                <button id="sendChat" style="background: var(--portal-common-start)"><i
+                        class="fas fa-paper-plane"></i></button>
+            </div>
+        </div>
+    </div>
+
+    <script src="js/main.js"></script>
+
+    <!-- Google Translate Script -->
+    <script type="text/javascript">
+        function googleTranslateElementInit() {
+            new google.translate.TranslateElement({
+                pageLanguage: 'en',
+                layout: google.translate.TranslateElement.InlineLayout.SIMPLE,
+                autoDisplay: false
+            }, 'google_translate_element');
+        }
+    </script>
+    <script type="text/javascript"
+        src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
+
+</body>
+
+</html>

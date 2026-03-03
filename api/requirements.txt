@@ -1,0 +1,4 @@
+# Tagore Learning Platform — Python API Dependencies
+# Minimal deps for Vercel serverless (stdlib-based Anthropic client needs no extras)
+# Only include if you want to use the anthropic SDK instead of stdlib:
+# anthropic>=0.32.0

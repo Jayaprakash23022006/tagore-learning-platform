@@ -1,0 +1,299 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tagore Learning Platform - Portal Selection</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        .login-container {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 2rem;
+            position: relative;
+        }
+
+        .login-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 2rem;
+            max-width: 1000px;
+            width: 100%;
+        }
+
+        .portal-card {
+            padding: 2.5rem 2rem;
+            text-align: center;
+            cursor: pointer;
+            position: relative;
+            overflow: hidden;
+            border-top: 4px solid transparent;
+        }
+
+        .portal-card i {
+            font-size: 3rem;
+            margin-bottom: 1.5rem;
+            background: -webkit-linear-gradient(135deg, var(--start-color), var(--end-color));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            transition: transform var(--transition-normal);
+        }
+
+        .portal-card:hover i {
+            transform: scale(1.1);
+        }
+
+        .portal-title {
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+            color: var(--text-main);
+        }
+
+        .portal-desc {
+            color: var(--text-muted);
+            font-size: 0.95rem;
+            margin-bottom: 2rem;
+        }
+
+        /* Specific Portal Styling */
+        #portal-bpl { border-top-color: var(--portal-bpl-start); --start-color: var(--portal-bpl-start); --end-color: var(--portal-bpl-end); }
+        #portal-hi { border-top-color: var(--portal-hi-start); --start-color: var(--portal-hi-start); --end-color: var(--portal-hi-end); }
+        #portal-vi { border-top-color: var(--portal-vi-start); --start-color: var(--portal-vi-start); --end-color: var(--portal-vi-end); }
+        #portal-common { border-top-color: var(--portal-common-start); --start-color: var(--portal-common-start); --end-color: var(--portal-common-end); }
+
+        .form-popup {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: var(--modal-bg);
+            backdrop-filter: blur(8px);
+            z-index: 1000;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            opacity: 0;
+            pointer-events: none;
+            transition: var(--transition-normal);
+        }
+
+        .form-popup.active {
+            opacity: 1;
+            pointer-events: auto;
+        }
+
+        .login-box {
+            width: 100%;
+            max-width: 400px;
+            padding: 3rem 2rem;
+            position: relative;
+            transform: translateY(20px);
+            transition: var(--transition-normal);
+        }
+
+        .form-popup.active .login-box {
+            transform: translateY(0);
+        }
+
+        .close-popup {
+            position: absolute;
+            top: 1rem; right: 1.5rem;
+            color: var(--text-muted);
+            font-size: 1.5rem;
+            cursor: pointer;
+            transition: var(--transition-fast);
+        }
+
+        .close-popup:hover { color: var(--text-main); }
+        
+        .biometric-scan {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 1.5rem;
+            margin: 2rem 0;
+        }
+        
+        .fingerprint {
+            font-size: 4rem;
+            color: var(--portal-vi-start);
+            cursor: pointer;
+            animation: pulse-border 2s infinite;
+            border-radius: 50%;
+            width: 100px;
+            height: 100px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        @keyframes pulse-border {
+            0% { box-shadow: 0 0 0 0 rgba(139, 92, 246, 0.4); }
+            70% { box-shadow: 0 0 0 20px rgba(139, 92, 246, 0); }
+            100% { box-shadow: 0 0 0 0 rgba(139, 92, 246, 0); }
+        }
+
+        @media (max-width: 768px) {
+            .login-grid { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+    <div class="bg-shape shape-1"></div>
+    <div class="bg-shape shape-2"></div>
+    
+    <div class="login-container">
+        <div class="container text-center">
+            <h1 class="gradient-text" style="font-size: 3rem; margin-bottom: 0.5rem;">Tagore Learning Platform</h1>
+            <p class="mb-5 text-muted" style="font-size: 1.1rem;">Select your student portal to access specialized resources</p>
+            
+            <div class="login-grid">
+                <!-- BPL Portal -->
+                <div class="glass-panel portal-card" id="portal-bpl" onclick="openLogin('bpl')">
+                    <i class="fas fa-book-reader"></i>
+                    <h2 class="portal-title">Content Access Plus</h2>
+                    <p class="portal-desc">For eligible students requiring specialized access to core subjects and extensive content library.</p>
+                    <span class="btn btn-primary" style="background: var(--portal-bpl-start)">Select Portal</span>
+                </div>
+
+                <!-- Hearing Impaired Portal -->
+                <div class="glass-panel portal-card" id="portal-hi" onclick="openLogin('hi')">
+                    <i class="fas fa-hands-asl-interpreting"></i>
+                    <h2 class="portal-title">ISL Supported Learning</h2>
+                    <p class="portal-desc">Visual learning paths featuring Indian Sign Language videos and dictionary integration.</p>
+                    <span class="btn btn-primary" style="background: var(--portal-hi-start)">Select Portal</span>
+                </div>
+
+                <!-- Visually Impaired Portal -->
+                <div class="glass-panel portal-card" id="portal-vi" onclick="openLogin('vi')">
+                    <i class="fas fa-eye-slash"></i>
+                    <h2 class="portal-title">Voice Navigated Portal</h2>
+                    <p class="portal-desc">Fully accessible interface with biometric login, voice navigation and Readable AI tutor.</p>
+                    <span class="btn btn-primary" style="background: var(--portal-vi-start)">Select Portal</span>
+                </div>
+
+                <!-- Common Portal -->
+                <div class="glass-panel portal-card" id="portal-common" onclick="openLogin('common')">
+                    <i class="fas fa-users"></i>
+                    <h2 class="portal-title">General Studies</h2>
+                    <p class="portal-desc">Standard access to higher education courses, skill development, and multi-language tools.</p>
+                    <span class="btn btn-primary" style="background: var(--portal-common-start)">Select Portal</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Universal Login Popup -->
+    <div class="form-popup" id="loginModal">
+        <div class="glass-panel login-box">
+            <i class="fas fa-times close-popup" onclick="closeLogin()"></i>
+            
+            <div id="standardLogin">
+                <h2 class="mb-4 text-center" id="formTitle">Sign In</h2>
+                <div class="form-group">
+                    <label class="form-label">Student ID</label>
+                    <input type="text" class="form-control" id="studentId" placeholder="Enter your ID">
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Password</label>
+                    <input type="password" class="form-control" id="password" placeholder="Enter password">
+                </div>
+                <div class="form-group d-none" id="hiCheckboxGroup">
+                    <label style="display: flex; align-items: center; gap: 0.5rem; cursor: pointer; color: var(--text-muted)">
+                        <input type="checkbox" id="hearingImpairedCheck"> 
+                        I am not able to hear (Enable ISL Features)
+                    </label>
+                </div>
+                <button class="btn btn-primary" style="width: 100%" onclick="submitLogin()">Sign In to Portal</button>
+            </div>
+
+            <div id="biometricLogin" class="d-none">
+                <h2 class="mb-4 text-center">Biometric Verification</h2>
+                <p class="text-center text-muted mb-4">Please place your finger on the sensor</p>
+                <div class="biometric-scan">
+                    <div class="fingerprint" onclick="simulateBiometric()">
+                        <i class="fas fa-fingerprint"></i>
+                    </div>
+                    <p id="scanStatus">Awaiting scan...</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="js/main.js"></script>
+    <script>
+        let currentPortalStr = '';
+
+        function openLogin(portal) {
+            currentPortalStr = portal;
+            const modal = document.getElementById('loginModal');
+            const standard = document.getElementById('standardLogin');
+            const bio = document.getElementById('biometricLogin');
+            const hiCheck = document.getElementById('hiCheckboxGroup');
+            const formTitle = document.getElementById('formTitle');
+
+            hiCheck.classList.add('d-none');
+
+            if (portal === 'vi') {
+                standard.classList.add('d-none');
+                bio.classList.remove('d-none');
+                // Speak instructions for visually impaired
+                if ('speechSynthesis' in window) {
+                    const msg = new SpeechSynthesisUtterance("Biometric verification required. Please place your finger on the sensor to sign in.");
+                    window.speechSynthesis.speak(msg);
+                }
+            } else {
+                bio.classList.add('d-none');
+                standard.classList.remove('d-none');
+                if (portal === 'hi') {
+                    hiCheck.classList.remove('d-none');
+                    formTitle.textContent = "ISL Supported Login";
+                } else if (portal === 'bpl') {
+                    formTitle.textContent = "Content Access Plus Login";
+                } else {
+                    formTitle.textContent = "General Studies Login";
+                }
+            }
+            
+            modal.classList.add('active');
+        }
+
+        function closeLogin() {
+            document.getElementById('loginModal').classList.remove('active');
+            window.speechSynthesis?.cancel(); // stop speaking if closed
+        }
+
+        function submitLogin() {
+            // Mock authentication, redirect to specific portal through welcome page
+            if (currentPortalStr === 'hi') {
+                const checked = document.getElementById('hearingImpairedCheck').checked;
+                if(!checked) {
+                    alert("Please check the 'I am not able to hear' to access ISL features or use the General portal.");
+                    return;
+                }
+            }
+            handleLogin(currentPortalStr, `${currentPortalStr}.html`);
+        }
+
+        function simulateBiometric() {
+            const status = document.getElementById('scanStatus');
+            status.textContent = "Scanning...";
+            status.style.color = "var(--portal-vi-start)";
+            
+            setTimeout(() => {
+                status.textContent = "Verified!";
+                status.style.color = "var(--success)";
+                if ('speechSynthesis' in window) {
+                    const msg = new SpeechSynthesisUtterance("Verification successful.");
+                    window.speechSynthesis.speak(msg);
+                }
+                
+                setTimeout(() => {
+                    handleLogin('vi', 'vi.html');
+                }, 1000);
+            }, 1500);
+        }
+    </script>
+</body>
+</html>

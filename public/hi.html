@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ISL Supported Learning (HI Portal)</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        .dict-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+            gap: 1rem;
+            max-height: 500px;
+            overflow-y: auto;
+            padding-right: 1rem;
+        }
+
+        .dict-item {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid var(--card-border);
+            border-radius: var(--radius-sm);
+            padding: 1rem;
+            text-align: center;
+            transition: var(--transition-fast);
+            cursor: pointer;
+        }
+
+        .dict-item:hover {
+            background: var(--surface-glass);
+            border-color: var(--primary);
+            transform: translateY(-2px);
+        }
+
+        .dict-icon {
+            font-size: 2.5rem;
+            margin-bottom: 0.5rem;
+            color: var(--portal-hi-start);
+        }
+
+        .dict-word {
+            font-family: var(--font-heading);
+            font-weight: 600;
+        }
+
+        /* Custom Scrollbar for Dictionary */
+        .dict-grid::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        .dict-grid::-webkit-scrollbar-track {
+            background: rgba(0, 0, 0, 0.1);
+            border-radius: 4px;
+        }
+
+        .dict-grid::-webkit-scrollbar-thumb {
+            background: var(--portal-hi-start);
+            border-radius: 4px;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="bg-shape shape-1" style="background: var(--portal-hi-start)"></div>
+    <div class="bg-shape shape-3"></div>
+
+    <nav class="navbar">
+        <div class="navbar-brand" style="color: var(--portal-hi-start)">
+            <i class="fas fa-hands-asl-interpreting"></i> ISL Learning Portal
+        </div>
+        <div class="nav-links">
+            <a href="#videos" class="nav-link active">ISL Videos</a>
+            <a href="#dictionary" class="nav-link">ISL Dictionary</a>
+            <a href="index.html" class="nav-link" style="color: var(--error)"><i class="fas fa-sign-out-alt"></i>
+                Exit</a>
+        </div>
+    </nav>
+
+    <div class="container mt-5">
+        <header class="mb-5 text-center">
+            <h1 class="gradient-text" style="font-size: 2.5rem; margin-bottom: 0.5rem">Visual Learning Path</h1>
+            <p class="text-muted">Master your subjects with high-quality Indian Sign Language instructions.</p>
+        </header>
+
+        <!-- ISL Videos -->
+        <section id="videos" class="mb-5">
+            <div style="display: flex; justify-content: space-between; align-items: center;" class="mb-4">
+                <h2><i class="fas fa-video" style="color: var(--portal-hi-start)"></i> Concept Videos in ISL</h2>
+                <span class="badge badge-hi">Visual Format</span>
+            </div>
+
+            <div class="grid-2">
+                <div class="glass-panel course-card">
+                    <div class="video-container">
+                        <!-- Example embedded video, must use /embed/ -->
+                        <iframe src="https://www.youtube.com/embed/5aC451gDqO0" title="ISL Basics"
+                            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                            allowfullscreen></iframe>
+                    </div>
+                    <div class="course-content">
+                        <h3 class="course-title">Science Concepts in ISL</h3>
+                        <p class="course-desc">Understanding basic physics and biology terms through clear sign language
+                            demonstrations.</p>
+                    </div>
+                </div>
+
+                <div class="glass-panel course-card">
+                    <div class="video-container">
+                        <iframe src="https://www.youtube.com/embed/T0mO3kQdJXY" title="ISL Math"
+                            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                            allowfullscreen></iframe>
+                    </div>
+                    <div class="course-content">
+                        <h3 class="course-title">Mathematics Problem Solving in ISL</h3>
+                        <p class="course-desc">Step-by-step visual guide for algebra and geometry.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ISL Dictionary -->
+        <section id="dictionary" class="mb-5">
+            <div class="glass-panel" style="padding: 2rem;">
+                <h2 class="mb-3"><i class="fas fa-book" style="color: var(--portal-hi-start)"></i> Interactive ISL
+                    Dictionary</h2>
+                <p class="text-muted mb-4">Browse over 500 standard ISL signs for common educational terms.</p>
+
+                <div class="form-group">
+                    <input type="text" class="form-control" id="dictSearch"
+                        placeholder="Search for a word (e.g. 'Apple', 'Book', 'Science')...">
+                </div>
+
+                <div class="dict-grid" id="dictContainer">
+                    <!-- Javascript will populate this with 500 items -->
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <!-- AI Chat Widget -->
+    <div class="chat-widget">
+        <button class="chat-button" id="chatBtn" style="background: var(--portal-hi-start)">
+            <i class="fas fa-robot"></i>
+        </button>
+        <div class="chat-window" id="chatWindow">
+            <div class="chat-header">
+                <div><i class="fas fa-hands-helping" style="color: var(--portal-hi-end); margin-right: 0.5rem"></i> AI
+                    Visual Assistant</div>
+                <i class="fas fa-times" id="closeChat" style="cursor: pointer"></i>
+            </div>
+            <div class="chat-messages" id="chatMessages">
+                <div class="message ai">Hello! I am your AI assistant for the ISL portal. I can explain concepts with
+                    text that is easy to translate to sign visuals.</div>
+            </div>
+            <div class="chat-input">
+                <input type="text" id="chatInput" placeholder="Ask a question...">
+                <button id="sendChat" style="background: var(--portal-hi-start)"><i
+                        class="fas fa-paper-plane"></i></button>
+            </div>
+        </div>
+    </div>
+
+    <script src="js/main.js"></script>
+    <script>
+        // Generate mock 500 ISL Dictionary Items
+        const dictContainer = document.getElementById('dictContainer');
+        const searchInput = document.getElementById('dictSearch');
+        const mockWords = ['Apple', 'Book', 'Cat', 'Dog', 'Elephant', 'Fish', 'Girl', 'House', 'Ice', 'Jump', 'Kite', 'Lion', 'Monkey', 'Nest', 'Orange', 'Pen', 'Queen', 'Rose', 'Sun', 'Tree', 'Umbrella', 'Van', 'Water', 'X-ray', 'Yellow', 'Zebra', 'Science', 'Maths', 'History', 'Geography', 'Physics', 'Chemistry', 'Biology'];
+
+        let allItems = [];
+
+        // Generate 500 total items by cycling through mock words
+        for (let i = 0; i < 500; i++) {
+            const word = mockWords[i % mockWords.length] + (i >= mockWords.length ? ` ${Math.floor(i / mockWords.length)}` : '');
+
+            const div = document.createElement('div');
+            div.className = 'dict-item';
+            div.innerHTML = `
+                <div class="dict-icon"><i class="fas fa-hand-paper"></i></div>
+                <div class="dict-word">${word}</div>
+            `;
+
+            // Add click action (modal or video pop up could be added later)
+            div.onclick = () => alert(`Sign demonstration for: ${word}`);
+
+            allItems.push({ el: div, text: word.toLowerCase() });
+            dictContainer.appendChild(div);
+        }
+
+        // Search functionality
+        searchInput.addEventListener('input', (e) => {
+            const query = e.target.value.toLowerCase();
+            allItems.forEach(item => {
+                if (item.text.includes(query)) {
+                    item.el.style.display = 'block';
+                } else {
+                    item.el.style.display = 'none';
+                }
+            });
+        });
+    </script>
+</body>
+
+</html>

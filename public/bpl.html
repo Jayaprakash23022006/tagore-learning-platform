@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Content Access Plus (BPL Portal)</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+</head>
+
+<body>
+    <div class="bg-shape shape-1"></div>
+    <div class="bg-shape shape-2"></div>
+
+    <nav class="navbar">
+        <div class="navbar-brand">
+            <i class="fas fa-book-reader"></i> Content Access Plus
+        </div>
+        <div class="nav-links">
+            <a href="#library" class="nav-link active">Content Library</a>
+            <a href="#courses" class="nav-link">Courses</a>
+            <a href="index.html" class="nav-link" style="color: var(--error)"><i class="fas fa-sign-out-alt"></i>
+                Exit</a>
+        </div>
+    </nav>
+
+    <div class="container mt-5">
+        <header class="mb-5 text-center">
+            <h1 class="gradient-text" style="font-size: 2.5rem; margin-bottom: 0.5rem">Welcome, Student</h1>
+            <p class="text-muted">Access free high-quality education spanning 1st to 12th standard.</p>
+        </header>
+
+        <!-- Content Library -->
+        <section id="library" class="mb-5">
+            <div style="display: flex; justify-content: space-between; align-items: center;" class="mb-4">
+                <h2><i class="fas fa-video" style="color: var(--primary)"></i> Featured Library</h2>
+                <span class="badge badge-bpl">1st - 12th Standard</span>
+            </div>
+
+            <div class="grid-3">
+                <!-- Mathematics -->
+                <div class="glass-panel course-card">
+                    <div class="video-container">
+                        <!-- Proper YouTube embed link avoids block issues -->
+                        <iframe src="https://www.youtube.com/embed/nZ1mGqH8lGQ" title="Mathematics"
+                            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                            allowfullscreen></iframe>
+                    </div>
+                    <div class="course-content">
+                        <h3 class="course-title">Mathematics Fundamentals</h3>
+                        <p class="course-desc">Core concepts from basic arithmetic to advanced calculus specifically
+                            tailored for school syllabus.</p>
+                        <div class="course-footer">
+                            <span style="color: var(--text-muted); font-size: 0.8rem">12 Chapters</span>
+                            <button class="btn btn-primary" style="padding: 0.5rem 1rem">View PDF Notes</button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Physics -->
+                <div class="glass-panel course-card">
+                    <div class="video-container">
+                        <iframe src="https://www.youtube.com/embed/b1t41Q3xRM8" title="Physics"
+                            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                            allowfullscreen></iframe>
+                    </div>
+                    <div class="course-content">
+                        <h3 class="course-title">Physics - Mechanics</h3>
+                        <p class="course-desc">Understand the laws of nature with visual demonstrations and simple
+                            explanations.</p>
+                        <div class="course-footer">
+                            <span style="color: var(--text-muted); font-size: 0.8rem">8 Chapters</span>
+                            <button class="btn btn-primary" style="padding: 0.5rem 1rem">Take Assessment</button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Tamil -->
+                <div class="glass-panel course-card">
+                    <div class="video-container">
+                        <iframe src="https://www.youtube.com/embed/2_N1d1F6LzI" title="Tamil"
+                            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                            allowfullscreen></iframe>
+                    </div>
+                    <div class="course-content">
+                        <h3 class="course-title">Tamil Ilakkanam</h3>
+                        <p class="course-desc">Learn Tamil grammar comprehensively. Essential for board exams.</p>
+                        <div class="course-footer">
+                            <span style="color: var(--text-muted); font-size: 0.8rem">15 Chapters</span>
+                            <button class="btn btn-primary" style="padding: 0.5rem 1rem">Download Materials</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Structured Courses -->
+        <section id="courses" class="mb-5">
+            <h2 class="mb-4"><i class="fas fa-layer-group" style="color: var(--accent)"></i> Complete Subjects Breakdown
+            </h2>
+            <div class="grid-2">
+
+                <!-- Chemistry -->
+                <div class="glass-panel" style="padding: 1.5rem">
+                    <h3 style="margin-bottom: 1rem; color: var(--secondary)"><i class="fas fa-flask"></i> Chemistry
+                        (11th & 12th)</h3>
+                    <ul style="list-style: none; display: flex; flex-direction: column; gap: 0.5rem;">
+                        <li
+                            style="display: flex; justify-content: space-between; border-bottom: 1px solid var(--card-border); padding-bottom: 0.5rem">
+                            <span>Organic Chemistry - Basics</span>
+                            <a href="#" style="color: var(--primary)">Watch & Assess <i
+                                    class="fas fa-arrow-right"></i></a>
+                        </li>
+                        <li
+                            style="display: flex; justify-content: space-between; border-bottom: 1px solid var(--card-border); padding-bottom: 0.5rem">
+                            <span>Inorganic Periodicity</span>
+                            <a href="#" style="color: var(--primary)">Watch & Assess <i
+                                    class="fas fa-arrow-right"></i></a>
+                        </li>
+                    </ul>
+                </div>
+
+                <!-- English -->
+                <div class="glass-panel" style="padding: 1.5rem">
+                    <h3 style="margin-bottom: 1rem; color: var(--accent)"><i class="fas fa-language"></i> English Comm.
+                        Skills</h3>
+                    <ul style="list-style: none; display: flex; flex-direction: column; gap: 0.5rem;">
+                        <li
+                            style="display: flex; justify-content: space-between; border-bottom: 1px solid var(--card-border); padding-bottom: 0.5rem">
+                            <span>Grammar Essentials</span>
+                            <a href="#" style="color: var(--primary)">Watch & Assess <i
+                                    class="fas fa-arrow-right"></i></a>
+                        </li>
+                        <li
+                            style="display: flex; justify-content: space-between; border-bottom: 1px solid var(--card-border); padding-bottom: 0.5rem">
+                            <span>Prose & Poetry Analysis</span>
+                            <a href="#" style="color: var(--primary)">Watch & Assess <i
+                                    class="fas fa-arrow-right"></i></a>
+                        </li>
+                    </ul>
+                </div>
+
+                <!-- Social Science -->
+                <div class="glass-panel" style="padding: 1.5rem; grid-column: span 2;">
+                    <h3 style="margin-bottom: 1rem; color: var(--warning)"><i class="fas fa-globe"></i> Social Science
+                    </h3>
+                    <div
+                        style="display: flex; justify-content: space-between; border-bottom: 1px solid var(--card-border); padding-bottom: 0.5rem; margin-bottom: 0.5rem">
+                        <span>Indian History & Constitution</span>
+                        <a href="#" style="color: var(--primary)">Watch & Assess <i class="fas fa-arrow-right"></i></a>
+                    </div>
+                    <div style="display: flex; justify-content: space-between; padding-bottom: 0.5rem">
+                        <span>Geography - Maps & Resources</span>
+                        <a href="#" style="color: var(--primary)">Download High-Res Maps <i
+                                class="fas fa-download"></i></a>
+                    </div>
+                </div>
+
+            </div>
+        </section>
+    </div>
+
+    <!-- AI Chat Widget -->
+    <div class="chat-widget">
+        <button class="chat-button" id="chatBtn">
+            <i class="fas fa-robot"></i>
+        </button>
+        <div class="chat-window" id="chatWindow">
+            <div class="chat-header">
+                <div><i class="fas fa-chalkboard-teacher" style="color: var(--primary); margin-right: 0.5rem"></i> AI
+                    Tutor</div>
+                <i class="fas fa-times" id="closeChat" style="cursor: pointer"></i>
+            </div>
+            <div class="chat-messages" id="chatMessages">
+                <div class="message ai">Hello! I'm your AI Tutor. Need help with any subjects today?</div>
+            </div>
+            <div class="chat-input">
+                <input type="text" id="chatInput" placeholder="Ask a question...">
+                <button id="sendChat"><i class="fas fa-paper-plane"></i></button>
+            </div>
+        </div>
+    </div>
+
+    <script src="js/main.js"></script>
+</body>
+
+</html>
