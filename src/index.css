@@ -803,6 +803,27 @@ a {
     color: var(--portal-common-start);
 }
 
+/* Staff portal card */
+.portal-staff {
+    border-top-color: #0ea5e9;
+}
+
+.portal-staff i.portal-icon {
+    color: #0ea5e9;
+}
+
+/* Auth success message */
+.auth-success {
+    background: rgba(16, 185, 129, 0.15);
+    border: 1px solid rgba(16, 185, 129, 0.4);
+    color: #34d399;
+    padding: 0.75rem 1rem;
+    border-radius: var(--radius-sm);
+    margin-bottom: 1rem;
+    font-size: 0.9rem;
+}
+
+
 /* ─── Login Modal ───────────────────────────────────────────────── */
 .form-popup {
     position: fixed;
