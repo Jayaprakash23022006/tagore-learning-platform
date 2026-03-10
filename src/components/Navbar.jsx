@@ -31,6 +31,7 @@ export default function Navbar({ brand, links = [] }) {
                         key={i}
                         href={link.href}
                         className={`nav-link ${link.active ? 'active' : ''}`}
+                        onClick={link.onClick ? (e) => { e.preventDefault(); link.onClick(); } : undefined}
                     >
                         {link.label}
                     </a>
