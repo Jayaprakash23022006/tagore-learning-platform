@@ -1,6 +1,5 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { useAuth } from '../contexts/AuthContext';
-
 /**
  * AI Chat Widget — reusable floating chatbot
  * Props:
@@ -26,27 +25,23 @@ export default function ChatWidget({
     const messagesEndRef = useRef(null);
     const inputRef = useRef(null);
     const { getAccessToken } = useAuth();
-
     useEffect(() => {
         messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
     }, [messages]);
-
     useEffect(() => {
         if (isOpen) inputRef.current?.focus();
     }, [isOpen]);
-
     const sendMessage = async () => {
         const text = input.trim();
         if (!text || isLoading) return;
-
         setMessages(prev => [...prev, { role: 'user', text }]);
         setInput('');
         setIsLoading(true);
-
         try {
-            const apiBase = import.meta.env.VITE_API_BASE_URL || 'http://localhost:8000';
+            // Use env var, then hardcoded Vercel URL, then localhost for dev
+            const apiBase = import.meta.env.VITE_API_BASE_URL
+                || 'https://tagore-learning-platform.vercel.app';
             const token = await getAccessToken();
-
             const response = await fetch(`${apiBase}/api/chat`, {
                 method: 'POST',
                 headers: {
@@ -55,29 +50,28 @@ export default function ChatWidget({
                 },
                 body: JSON.stringify({ message: text, systemPrompt })
             });
-
             const data = await response.json();
-
             if (response.ok) {
                 setMessages(prev => [...prev, { role: 'ai', text: data.reply }]);
             } else {
                 throw new Error(data.error || 'Server error');
             }
         } catch (error) {
+            const msg = error.message?.includes('Failed to fetch')
+                ? 'Could not connect to the AI server. Please check your internet connection.'
+                : error.message;
             setMessages(prev => [...prev, {
                 role: 'ai',
-                text: `Error: ${error.message}. Make sure the backend server is running.`,
+                text: `⚠️ ${msg}`,
                 isError: true
             }]);
         } finally {
             setIsLoading(false);
         }
     };
-
     const handleKeyPress = (e) => {
         if (e.key === 'Enter') sendMessage();
     };
-
     return (
         <div className="chat-widget">
             <button
@@ -89,7 +83,6 @@ export default function ChatWidget({
             >
                 <i className="fas fa-robot"></i>
             </button>
-
             <div className={`chat-window ${isOpen ? 'open' : ''}`}>
                 <div className="chat-header">
                     <div>
@@ -102,7 +95,6 @@ export default function ChatWidget({
                         onClick={() => setIsOpen(false)}
                     ></i>
                 </div>
-
                 <div className="chat-messages" id="chatMessages">
                     {messages.map((msg, i) => (
                         <div
@@ -120,7 +112,6 @@ export default function ChatWidget({
                     )}
                     <div ref={messagesEndRef} />
                 </div>
-
                 <div className="chat-input">
                     <input
                         ref={inputRef}
