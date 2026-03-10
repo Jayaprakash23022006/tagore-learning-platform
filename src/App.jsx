@@ -7,6 +7,8 @@ import BPLDashboard from './pages/BPLDashboard';
 import HIDashboard from './pages/HIDashboard';
 import VIDashboard from './pages/VIDashboard';
 import GeneralDashboard from './pages/GeneralDashboard';
+import StaffDashboard from './pages/StaffDashboard';
+import AssessmentPage from './pages/AssessmentPage';
 
 /* Route guard: redirects to login if not authenticated */
 function ProtectedRoute({ children, allowedType }) {
@@ -64,6 +66,24 @@ export default function App() {
                 element={
                     <ProtectedRoute allowedType="general">
                         <GeneralDashboard />
+                    </ProtectedRoute>
+                }
+            />
+            {/* Staff portal — any authenticated user with userType 'staff' */}
+            <Route
+                path="/staff"
+                element={
+                    <ProtectedRoute allowedType="staff">
+                        <StaffDashboard />
+                    </ProtectedRoute>
+                }
+            />
+            {/* Assessment quizzes — accessible from General portal */}
+            <Route
+                path="/assessment/:type"
+                element={
+                    <ProtectedRoute allowedType="general">
+                        <AssessmentPage />
                     </ProtectedRoute>
                 }
             />
