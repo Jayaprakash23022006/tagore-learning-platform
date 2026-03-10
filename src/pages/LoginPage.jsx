@@ -64,6 +64,14 @@ export default function LoginPage() {
             desc: 'Standard access to higher education courses, skill development, and multi-language tools.',
             cssClass: 'portal-common',
             btnColor: 'var(--portal-common-start)'
+        },
+        {
+            id: 'staff',
+            icon: 'fas fa-user-tie',
+            title: 'Staff Portal',
+            desc: 'For teachers and faculty to upload study materials, question papers, and resources for all students.',
+            cssClass: 'portal-staff',
+            btnColor: '#0ea5e9'
         }
     ];
 
@@ -100,7 +108,8 @@ export default function LoginPage() {
             bpl: 'Content Access Plus',
             hi: 'ISL Supported Login',
             general: 'General Studies',
-            vi: 'Biometric Verification'
+            vi: 'Biometric Verification',
+            staff: 'Staff Portal Login'
         };
         return titles[currentPortal] || 'Sign In';
     };
@@ -191,7 +200,7 @@ export default function LoginPage() {
                         Tagore Learning Platform
                     </h1>
                     <p className="mb-5 text-muted" style={{ fontSize: '1.1rem' }}>
-                        Select your student portal to access specialized resources
+                        Select your portal — students or staff
                     </p>
 
                     <div className="login-grid">
