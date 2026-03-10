@@ -1,4 +1,5 @@
 import React, { useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import Navbar from '../components/Navbar';
 import VideoCard from '../components/VideoCard';
 import ChatWidget from '../components/ChatWidget';
@@ -9,6 +10,7 @@ import ChatWidget from '../components/ChatWidget';
  * Ported from original common.html
  */
 export default function GeneralDashboard() {
+    const navigate = useNavigate();
 
     /* ─── Load Google Translate widget ──────────────── */
     useEffect(() => {
@@ -150,24 +152,30 @@ export default function GeneralDashboard() {
 
                         <div className="grid-3 notranslate">
                             <div className="assessment-tile">
-                                <h4>Aptitude & Reasoning</h4>
-                                <p>Quant, logic, and puzzles.</p>
-                                <button className="btn btn-primary" style={{ width: '100%', fontSize: '0.8rem' }}>
-                                    Start Test
+                                <i className="fas fa-brain" style={{ fontSize: '2rem', color: '#f59e0b', marginBottom: '1rem', display: 'block' }}></i>
+                                <h4>Aptitude &amp; Reasoning</h4>
+                                <p>Quant, logic, and puzzles. 10 questions.</p>
+                                <button className="btn btn-primary" style={{ width: '100%', fontSize: '0.8rem', background: '#f59e0b' }}
+                                    onClick={() => navigate('/assessment/aptitude')}>
+                                    <i className="fas fa-play" style={{ marginRight: '0.4rem' }}></i>Start Test
                                 </button>
                             </div>
                             <div className="assessment-tile">
-                                <h4>Coding Interviews</h4>
-                                <p>DS and Algo problem solving.</p>
-                                <button className="btn btn-primary" style={{ width: '100%', fontSize: '0.8rem' }}>
-                                    Start Test
+                                <i className="fas fa-code" style={{ fontSize: '2rem', color: '#8b5cf6', marginBottom: '1rem', display: 'block' }}></i>
+                                <h4>Coding &amp; Algorithms</h4>
+                                <p>DS, Algo, and CS concepts. 10 questions.</p>
+                                <button className="btn btn-primary" style={{ width: '100%', fontSize: '0.8rem', background: '#8b5cf6' }}
+                                    onClick={() => navigate('/assessment/coding')}>
+                                    <i className="fas fa-play" style={{ marginRight: '0.4rem' }}></i>Start Test
                                 </button>
                             </div>
                             <div className="assessment-tile">
+                                <i className="fas fa-comments" style={{ fontSize: '2rem', color: '#10b981', marginBottom: '1rem', display: 'block' }}></i>
                                 <h4>Communication Skills</h4>
-                                <p>Verbal reasoning & emails.</p>
-                                <button className="btn btn-primary" style={{ width: '100%', fontSize: '0.8rem' }}>
-                                    Start Test
+                                <p>Grammar, vocabulary &amp; emails. 10 questions.</p>
+                                <button className="btn btn-primary" style={{ width: '100%', fontSize: '0.8rem', background: '#10b981' }}
+                                    onClick={() => navigate('/assessment/communication')}>
+                                    <i className="fas fa-play" style={{ marginRight: '0.4rem' }}></i>Start Test
                                 </button>
                             </div>
                         </div>
