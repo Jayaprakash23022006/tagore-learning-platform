@@ -12,14 +12,9 @@ import ChatWidget from '../components/ChatWidget';
 // Unicode regional indicator letters A–Z (show as letter blocks with country-flag style)
 // These are distinct per letter unlike font icons
 
-// Hand sign emoji per letter (ISL fingerspelling approximation)
-const LETTER_SIGNS = {
-  A: '🤙', B: '✋', C: '🤚', D: '☝️', E: '✌️',
-  F: '🤞', G: '👈', H: '👉', I: '🤟', J: '🤘',
-  K: '✊', L: '👍', M: '👊', N: '🤛', O: '👌',
-  P: '🤜', Q: '🖐️', R: '🖖', S: '💪', T: '👋',
-  U: '🤏', V: '✌️', W: '🖐️', X: '☝️', Y: '🤙', Z: '👆',
-};
+// Real ISL uses two hands, so standard single-hand emojis look identical/inaccurate.
+// We will use a clean typographical approach: a large letter + an ISL icon.
+const ISL_ICON = 'fas fa-hands-asl-interpreting';
 
 // Color per letter group (A–E blue, F–J green, K–O purple, P–T amber, U–Z red)
 const LETTER_COLORS = {
@@ -48,10 +43,9 @@ const DICTIONARY = [
   'Walk','Run','Sit','Stand','Eat','Drink','Sleep','Read','Write','Play',
 ].map((word, id) => ({ id, word }));
 
-/** Return the hand sign emoji for a given word */
-function getSign(word) {
-  const first = word[0]?.toUpperCase() || 'A';
-  return LETTER_SIGNS[first] || '🤚';
+/** Return the starting letter for a given word */
+function getLetter(word) {
+  return word[0]?.toUpperCase() || 'A';
 }
 
 /** Return the color for a given word */
@@ -180,48 +174,39 @@ export default function HIDashboard() {
             )}
 
             <div className="dict-grid">
-              {filteredItems.map((item) => {
-                const sign = getSign(item.word);
-                const color = getColor(item.word);
-                const isSelected = selectedWord?.id === item.id;
-                return (
-                  <div
-                    key={item.id}
-                    className="dict-item"
-                    onClick={() => setSelectedWord(isSelected ? null : item)}
-                    role="button"
-                    tabIndex={0}
-                    onKeyPress={(e) => e.key === 'Enter' && setSelectedWord(isSelected ? null : item)}
-                    aria-label={`View ISL sign for ${item.word}`}
-                    style={{
-                      borderColor: isSelected ? color : 'var(--card-border)',
-                      background: isSelected ? `${color}22` : 'rgba(255,255,255,0.05)',
-                    }}
-                  >
-                    {/* Unique hand sign per word based on first letter */}
-                    <div style={{
-                      fontSize: '2.2rem',
-                      marginBottom: '0.5rem',
-                      width: '50px',
-                      height: '50px',
-                      borderRadius: '50%',
-                      background: `${color}22`,
-                      border: `2px solid ${color}55`,
-                      display: 'flex',
-                      alignItems: 'center',
-                      justifyContent: 'center',
-                      margin: '0 auto 0.5rem',
-                    }}>
-                      {sign}
+              {filteredItems.length > 0 ? (
+                filteredItems.map((item) => {
+                  const isSelected = selectedWord?.id === item.id;
+                  const color = getColor(item.word);
+                  return (
+                    <div
+                      key={item.id}
+                      className={`dict-card ${isSelected ? 'active' : ''}`}
+                      onClick={() => setSelectedWord(isSelected ? null : item)}
+                      role="button"
+                      tabIndex={0}
+                      onKeyPress={(e) => e.key === 'Enter' && setSelectedWord(isSelected ? null : item)}
+                      aria-label={`View ISL sign for ${item.word}`}
+                      style={{
+                        '--card-color': color,
+                        cursor: 'pointer',
+                        border: isSelected ? `2px solid ${color}` : '1px solid var(--card-border)',
+                        background: isSelected ? `${color}22` : 'rgba(255,255,255,0.05)',
+                        padding: '1.5rem',
+                        borderRadius: 'var(--radius-md)',
+                        textAlign: 'center',
+                        transition: 'var(--transition-fast)'
+                      }}
+                    >
+                      <div className="dict-sign" style={{ color: color, display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '0.5rem' }}>
+                        <span style={{ fontSize: '2.5rem', fontWeight: '800', lineHeight: '1' }}>{getLetter(item.word)}</span>
+                        <i className={ISL_ICON} style={{ fontSize: '1.2rem', opacity: 0.8 }}></i>
+                      </div>
+                      <div className="dict-word" style={{ marginTop: '0.5rem', fontWeight: '600' }}>{item.word}</div>
                     </div>
-                    <div className="dict-word" style={{ fontSize: '0.85rem' }}>{item.word}</div>
-                    <div style={{ fontSize: '0.65rem', color, marginTop: '0.2rem', fontWeight: 600 }}>
-                      {item.word[0].toUpperCase()}
-                    </div>
-                  </div>
-                );
-              })}
-              {filteredItems.length === 0 && (
+                  );
+                })
+              ) : (
                 <p className="text-muted" style={{ gridColumn: '1 / -1', textAlign: 'center', padding: '2rem' }}>
                   No matching signs found. Try a different search term.
                 </p>
